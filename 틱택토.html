@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>틱택토 게임</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+
+      td {
+        border: 1px solid black;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // const arr = [1, 2, 3, 4, 5];
+      // const one = arr[0]
+      // const three = arr[2]
+      // const five = arr[4]
+      // const [one, ,three, ,five] = arr; 위 3개 줄이는 최신문법
+      // 인덱스와 자리를 맞춰준다
+      // const { body, createElement } = document; // 최신문법
+      // const body = document.body;와 같다
+      // const creatElement = document.creatElement;와 같다
+      const $table = document.createElement("table");
+      const $result = document.createElement("div");
+      const rows = [];
+      let turn = "O";
+      //   for (let i = 0; i < 3; i++) {
+      //     data.push([]);
+      //   }
+
+      // 이차원 배열
+      //[
+      // [td, td, td],
+      // [td, td, td],
+      // [td, td, td],
+      //]
+      const checkWinner = (target) => {
+        const rowIndex = target.parentNode.rowIndex;
+        const cellIndex = target.cellIndex;
+        // 위 처럼 변경 가능
+        // let rowIndex;
+        // let cellIndex;
+        // rows.forEach((row, ri) => {
+        //   row.forEach((cell, ci) => {
+        //     if (cell === target) {
+        //       rowIndex = ri;
+        //       cellIndex = ci;
+        //     }
+        //   });
+        // });
+        // 세 칸 다 채워졌나?
+        let hasWinner = false;
+        //가로줄 검사
+        if (
+          rows[rowIndex][0].textContent === turn &&
+          rows[rowIndex][1].textContent === turn &&
+          rows[rowIndex][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        //세로줄 검사
+        if (
+          rows[0][cellIndex].textContent === turn &&
+          rows[1][cellIndex].textContent === turn &&
+          rows[2][cellIndex].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        // 대각선 검사
+        if (
+          rows[0][0].textContent === turn &&
+          rows[1][1].textContent === turn &&
+          rows[2][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        if (
+          rows[0][2].textContent === turn &&
+          rows[1][1].textContent === turn &&
+          rows[2][0].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        return hasWinner;
+      };
+
+      const callback = (event) => {
+        // 칸에 글자가 있나?
+        if (event.target.textContent !== "") {
+          // 칸이 이미 채워져 있는가?
+          console.log("빈칸이 아닙니다.");
+          return;
+        } // 빈칸이면
+        console.log("빈칸입니다.");
+        event.target.textContent = turn;
+        // 승부 확인
+        const hasWinner = checkWinner(event.target);
+        if (hasWinner) {
+          $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener("click", callback);
+          return;
+        }
+        // 무승부 검사
+
+        // let draw = true;
+        // rows.forEach((row) => {
+        //   row.forEach((cell) => {
+        //     if (!cell.textContent) {
+        //       draw = false;
+        //     }
+        //   });
+        // });
+        // 아래처럼 변경 every써서 한줄로
+        const draw = rows.flat().every((cell) => cell.textContent);
+        if (draw) {
+          $result.textContent = `무승부`;
+          return;
+        }
+        turn = turn === "O" ? "X" : "O";
+      };
+
+      for (let i = 1; i <= 3; i++) {
+        const $tr = document.createElement("tr");
+        const cells = [];
+        for (let j = 1; j <= 3; j++) {
+          const $td = document.createElement("td");
+          cells.push($td);
+          $tr.append($td);
+        }
+        rows.push(cells);
+        $table.append($tr);
+      }
+      $table.addEventListener("click", callback);
+      document.body.append($table);
+      document.body.append($result);
+      // 컴퓨터의 턴 만들기.
+    </script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>date</title>
+  </head>
+  <body>
+    <script>
+      function makeArmy() {
+        let shooters = [];
+
+        for (let i = 0; i < 10; i++) {
+          let shooter = function () {
+            // shooter function
+            alert(i); // should show its number
+          };
+          shooters.push(shooter);
+        }
+
+        return shooters;
+      }
+
+      let army = makeArmy();
+
+      army[0](); // 0
+      army[5](); // 5
+
+      // 내가 푼 것
+      // function makeArmy() {
+      //   let shooters = [];
+
+      //   let i = 0;
+      //   while (i < 10) {
+      //     function shooter() {
+      //       // shooter 함수
+      //       alert(i); // 몇 번째 shooter인지 출력해줘야 함
+      //     }
+      //     shooters.push(i);
+      //     i++;
+      //   }
+
+      //   return shooters;
+      // }
+
+      // let army = makeArmy();
+      // console.log(army[0]);
+      // console.log(army[5]);
+
+      // army[0]; // 0번째 shooter가 10을 출력함
+      // army[5]; // 5번째 shooter 역시 10을 출력함
+      // 모든 shooter가 자신의 번호 대신 10을 출력하고 있음
+      // =======
+      // function byField(fieldName) {
+      //   return (a, b) => (a[fieldName] > b[fieldName] ? 1 : -1);
+      // }
+
+      // let users = [
+      //   { name: "John", age: 20, surname: "Johnson" },
+      //   { name: "Pete", age: 18, surname: "Peterson" },
+      //   { name: "Ann", age: 19, surname: "Hathaway" },
+      // ];
+
+      // console.log(users.sort(byField("name")));
+      // console.log(users.sort(byField("age")));
+      // function inBetween(a, b) {
+      //   return function (arr) {
+      //     return a <= arr && arr <= b;
+      //   };
+      // }
+
+      // function inArray([...arr]) {
+      //   return function (x) {
+      //     return arr.includes(x);
+      //   };
+      // }
+
+      // let arr = [1, 2, 3, 4, 5, 6, 7];
+
+      // alert(arr.filter(inBetween(3, 6))); // 3,4,5,6
+
+      // alert(arr.filter(inArray([1, 2, 10]))); // 1,2
+      // function sum(a) {
+      //   return function (b) {
+      //     return a + b;
+      //   };
+      // }
+
+      // console.log(sum(1)(2));
+      // console.log(sum(5)(-1));
+      // function test() {
+      //   let result = "";
+      //   if (!a) {
+      //     result = "a";
+      //     result += "b";
+      //     return result;
+      //   }
+      //   if (!b) {
+      //     result = "c";
+      //   }
+      //   result += "b";
+      //   return result;
+      // }
+
+      // test();
+    </script>
+  </body>
+</html>

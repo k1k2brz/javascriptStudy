@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculate</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      #result {
+        width: 180px;
+        height: 50px;
+        margin: 5px;
+        text-align: right;
+      }
+
+      #operator {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        text-align: center;
+      }
+
+      button {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <input readonly id="operator" />
+    <input readonly type="number" id="result" />
+    <div class="row">
+      <button id="num-7">7</button>
+      <button id="num-8">8</button>
+      <button id="num-9">9</button>
+      <button id="plus">+</button>
+    </div>
+    <div class="row">
+      <button id="num-4">4</button>
+      <button id="num-5">5</button>
+      <button id="num-6">6</button>
+      <button id="minus">-</button>
+    </div>
+    <div class="row">
+      <button id="num-1">1</button>
+      <button id="num-2">2</button>
+      <button id="num-3">3</button>
+      <button id="divide">/</button>
+    </div>
+    <div class="row">
+      <button id="clear">C</button>
+      <button id="num-0">0</button>
+      <button id="calculate">=</button>
+      <button id="multiply">x</button>
+    </div>
+    <script>
+      // 대부분 비슷한데 일정 부분만 다르다 -> 함수써서 매개변수로 만듬
+      let numOne = "";
+      let operator = "";
+      let numTwo = "";
+      let opThree = "";
+      const $operator = document.querySelector("#operator");
+      const $result = document.querySelector("#result");
+      // 함수안의 함수, 함수 안에 리턴이 있다 (고차함수 high order function)
+      const onClickNumber = (event) => {
+        //리턴 후 함수를 넣어야 undefind가 안나온다
+        //실제 동작하는 것을 여기 넣어야함
+        //리턴 없는 이유는 생략해서 화살표로 처리함
+        if (!operator) {
+          //비어있다
+          numOne += event.target.textContent;
+          $result.value += event.target.textContent;
+          return;
+        }
+        if (!numTwo) {
+          //비어있지 않다
+          $result.value = "";
+        }
+        numTwo += event.target.textContent;
+        $result.value += event.target.textContent;
+        if (!numOne && !numTwo) {
+          numThree += event.target.textContent;
+          $result.value += event.target.textContent;
+        }
+        // console.log(numTwo);
+      };
+
+      document.querySelector("#num-0").addEventListener("click", onClickNumber);
+      //   if (operator) {
+      //     numTwo += "0";
+      //   } else {
+      //     numOne += "0";
+      //   }
+      //   $result.value += "0";
+      document.querySelector("#num-1").addEventListener("click", onClickNumber);
+      //   if (operator) {
+      //     numTwo += "1";
+      //   } else {
+      //     numOne += "1";
+      //   }
+      document.querySelector("#num-2").addEventListener("click", onClickNumber);
+      document.querySelector("#num-3").addEventListener("click", onClickNumber);
+      document.querySelector("#num-4").addEventListener("click", onClickNumber);
+      document.querySelector("#num-5").addEventListener("click", onClickNumber);
+      document.querySelector("#num-6").addEventListener("click", onClickNumber);
+      document.querySelector("#num-7").addEventListener("click", onClickNumber);
+      document.querySelector("#num-8").addEventListener("click", onClickNumber);
+      document.querySelector("#num-9").addEventListener("click", onClickNumber);
+      const onClickOperator = (op) => () => {
+        if (numOne) {
+          operator = op;
+          $operator.value = op;
+        } else {
+          alert("숫자를 먼저 입력하세요.");
+        }
+      };
+      document
+        .querySelector("#plus")
+        .addEventListener("click", onClickOperator("+"));
+      document
+        .querySelector("#minus")
+        .addEventListener("click", onClickOperator("-"));
+      document
+        .querySelector("#divide")
+        .addEventListener("click", onClickOperator("/"));
+      document
+        .querySelector("#multiply")
+        .addEventListener("click", onClickOperator("*"));
+      document.querySelector("#calculate").addEventListener("click", () => {
+        if (numTwo) {
+          if (operator === "+") {
+            $result.value = parseInt(numOne) + parseInt(numTwo);
+          } else if (operator === "-") {
+            $result.value = parseInt(numOne) - parseInt(numTwo);
+          } else if (operator === "/") {
+            $result.value = parseInt(numOne) / parseInt(numTwo);
+          } else if (operator === "*") {
+            $result.value = parseInt(numOne) * parseInt(numTwo);
+          } else {
+            alert("숫자를 먼저 입력해주세요.");
+          }
+        } else {
+          parseInt();
+        }
+      });
+      document.querySelector("#clear").addEventListener("click", () => {});
+      // const onClickClear = () => () => {
+      //   $operator.value = "";
+      //   $result.value = "";
+      //   numOne =""operator = numTwo = "";
+      // };
+
+      // function test() {
+      //   let result = '';
+      //   if(!a) {
+      //     result = 'a';
+      //     result += 'b';
+      //     return result;
+      //   }
+      //   if (!b) {
+      //     result ='c';
+      //   }
+      //   result += 'b';
+      //   return result;
+      // }
+    </script>
+  </body>
+</html>

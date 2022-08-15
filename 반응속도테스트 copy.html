@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>반응속도 테스트</title>
+
+    <style>
+      #screen {
+        width: 300px;
+        height: 200px;
+        text-align: center;
+        user-select: none;
+      }
+      #screen.waiting {
+        background-color: aqua;
+      }
+      #screen.ready {
+        background-color: red;
+        color: white;
+      }
+      #screen.now {
+        background-color: greenyellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="screen" class="waiting">클릭해서 시작하세요.</div>
+    <div id="result"></div>
+    <ol id="sort"></ol>
+    <script>
+      const $screen = document.querySelector("#screen");
+      const $result = document.querySelector("#result");
+      const $sort = document.querySelector("#sort");
+      // 변수 선언 위치를 여기에 설정해야 하는 이유는 전역스코프라서
+      // 함수 안에 선언하면 클릭시 다른 함수와의 값이 다름 (초기화)
+      let startTime;
+      let endTime;
+      const records = [];
+      let timeoutId;
+      $screen.addEventListener("click", (event) => {
+        if (event.target.classList.contains("waiting")) {
+          // 파랑
+          $screen.classList.remove("waiting");
+          $screen.classList.add("ready");
+          $screen.textContent = "초록색이 되면 클릭하세요.";
+          timeoutId = setTimeout(function () {
+            startTime = new Date();
+            $screen.classList.remove("ready");
+            $screen.classList.add("now");
+            $screen.textContent = "클릭하세요!!";
+            // 시간 재기
+          }, Math.floor(Math.random() * 1000) + 2000); // 2000 ~ 3000사이의 수
+        } else if (event.target.classList.contains("ready")) {
+          // 빨강
+          clearTimeout(timeoutId);
+          $screen.classList.remove("ready");
+          $screen.classList.add("waiting");
+          $screen.textContent = "너무 성급하군요";
+        } else if (event.target.classList.contains("now")) {
+          // 초록
+          endTime = new Date();
+          const current = endTime - startTime;
+          records.push(current);
+          const average = records.reduce((a, c) => a + c) / records.length; // 평균구하기 자주 씀
+          // return이 생략된 화살표 함수
+          $result.textContent = `현재 ${current}ms, 평균 ${average}ms`;
+          startTime = null;
+          endTime = null;
+          //   $result.textContent = `${endTime - startTime}ms`;
+          const topFive = records.sort((p, c) => p - c).slice(0, 5);
+          topFive.forEach((top, index) => {
+            $result.append(
+              document.createElement("br"),
+              `${index + 1}위: ${top}ms`
+            );
+          });
+          $screen.classList.remove("now");
+          $screen.classList.add("waiting");
+          $screen.textContent = "클릭해서 시작하세요";
+        }
+        // 끝 시간 재기
+        // 시간 차이 저장하기
+        // classList.contains('클래스')는 클래스 안의 true false구별해줌
+        // classList.add // classList.replace // classList.remove
+      });
+
+      // 가장 빠른 다섯 번의 시도가 몇 초인지 보여주기.
+      // 6번 이상 시도한 경우에도 상위 5개만 보여주기
+
+      // 힌트: sort 메서드 사용
+    </script>
+  </body>
+</html>

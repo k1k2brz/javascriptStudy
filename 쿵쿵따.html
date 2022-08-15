@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>쿵쿵따게임</title>
+  </head>
+  <body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div><span>제시어: </span><span id="word"></span></div>
+    <form onsubmit="return false">
+      <input type="text" oninput="handleOnInput(this, 3)" />
+      <button>입력</button>
+    </form>
+    <script>
+      const number = Number(prompt("참가 인원을 입력해주세요.", 3));
+
+      if (number !== 0) {
+        const $input = document.querySelector("input");
+        const $button = document.querySelector("button");
+        const $order = document.querySelector("#order");
+        const $word = document.querySelector("#word");
+
+        let word;
+        let newWord;
+
+        function handleOnInput(el, maxlength) {
+          if (el.value.length > maxlength) {
+            el.value = el.value.substr(0, maxlength);
+          }
+        }
+
+        const onclickButton = () => {
+          if (
+            (!word || word[word.length - 1] === newWord[0]) &&
+            newWord.length === 3
+          ) {
+            word = newWord;
+            $word.textContent = word;
+            const order = parseInt($order.textContent);
+            if (order + 1 > number) {
+              $order.textContent = 1;
+            } else {
+              $order.textContent = order + 1;
+            }
+          } else {
+            alert("올바른 단어를 입력하세요.");
+          }
+          $input.value = "";
+          $input.focus();
+        };
+
+        const onInput = (event) => {
+          newWord = event.target.value;
+        };
+
+        $button.addEventListener("click", onclickButton);
+        $input.addEventListener("input", onInput);
+      } else {
+        alert("실행불가");
+      }
+      //   let i = 0;
+      //   i = $order.textContent;
+      //   if ($order.textContent < number) {
+      //     i++;
+      //   } else {
+      //     i === 0;
+      //   }
+
+      //   $button.addEventListener("click", (e) => {
+      //     e.preventDefault();
+      //     if (newWord !== "") {
+      //       word = $word.textContent;
+      //       newWord = $input.value;
+      //       if (word[word.length - 1] === newWord[0]) {
+      //         $word.textContent = $input.value;
+      //         $input.value = "";
+      //         $input.focus();
+      //       } else {
+      //         alert("단어가 올바르지 않습니다.");
+      //       }
+      //     }
+      //   });
+    </script>
+  </body>
+</html>
